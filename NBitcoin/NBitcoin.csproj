@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Company>Metaco SA</Company>
+		<Copyright>Copyright © Metaco SA 2017</Copyright>
+		<Description>The C# Bitcoin Library</Description>
+    <PackageIcon>icon.png</PackageIcon>
+		<PackageTags>bitcoin</PackageTags>
+		<PackageProjectUrl>https://github.com/MetacoSA/NBitcoin</PackageProjectUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<RepositoryUrl>https://github.com/MetacoSA/NBitcoin</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+	</PropertyGroup>
+	<PropertyGroup>
+		<Version Condition=" '$(Version)' == '' ">7.0.10</Version>
+		<LangVersion>9.0</LangVersion>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+	</PropertyGroup>
+	<PropertyGroup>
+    <TargetFrameworks>net472;netstandard1.3;netstandard1.1;netstandard2.1;netstandard2.0;net6.0</TargetFrameworks>
+    <TargetFrameworks Condition="'$(TargetFrameworkOverride)' != ''">$(TargetFrameworkOverride)</TargetFrameworks>
+		<NoWarn>1591;1573;1572;1584;1570;3021</NoWarn>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+		<DebugType>portable</DebugType>
+		<Optimize>true</Optimize>
+		<DocumentationFile>bin\Release\NBitcoin.XML</DocumentationFile>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'net472' ">
+		<DefineConstants>$(DefineConstants);CLASSICDOTNET;NO_ARRAY_FILL;NULLABLE_SHIMS;NO_SOCKETASYNC</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.1' Or '$(TargetFramework)' == 'netstandard2.0'  Or '$(TargetFramework)' == 'net6.0'">
+		<DefineConstants>$(DefineConstants);NOCUSTOMSSLVALIDATION;NO_NATIVERIPEMD160</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(TargetFramework)' == 'netstandard2.1' Or '$(TargetFramework)' == 'net6.0'">
+		<DefineConstants>$(DefineConstants);NETCORE;HAS_SPAN;NO_BC</DefineConstants>
+    <RemoveBC>true</RemoveBC>
+	</PropertyGroup>
+  <PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.1' ">
+	<DefineConstants>$(DefineConstants);NO_SOCKETASYNC</DefineConstants>
+  </PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard2.0' ">
+		<DefineConstants>$(DefineConstants);NETSTANDARD;NO_ARRAY_FILL;NULLABLE_SHIMS;NO_NATIVE_RFC2898_HMACSHA512;NO_NATIVERIPEMD160;NO_SOCKETASYNC</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+		<DefineConstants>$(DefineConstants);NETSTANDARD;NETSTANDARD1X;NULLABLE_SHIMS;NO_MEM_BUFFER;NOTRACESOURCE;NOCUSTOMSSLVALIDATION;NONATIVEHASH;NO_BEGINCONNECT;NO_ARRAY_FILL;NO_NATIVE_RFC2898_HMACSHA512;NETSTANDARD13;NO_NATIVERIPEMD160;NO_NATIVESHA1;NO_SOCKETASYNC;NO_TUPLE</DefineConstants>
+	</PropertyGroup>
+	<PropertyGroup Condition=" '$(TargetFramework)' == 'netstandard1.1' ">
+		<DefineConstants>$(DefineConstants);NO_RCA;NOPARALLEL;NETSTANDARD;NETSTANDARD1X;NULLABLE_SHIMS;NO_MEM_BUFFER;NOTRACESOURCE;NOCUSTOMSSLVALIDATION;NOSTRNORMALIZE;NOSOCKET;NOFILEIO;USEBC;NODEFAULTRNG;NODYNAMIC;NOX509;NONATIVEHASH;NO_ARRAY_FILL;NO_NATIVE_HMACSHA512;NO_THREAD;NO_NATIVERIPEMD160;NO_NATIVESHA1;NO_SOCKETASYNC;NO_TUPLE</DefineConstants>
+	</PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+		<DefineConstants>$(DefineConstants);SECP256K1_VERIFY</DefineConstants>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+		<PackageReference Include="System.Buffers" Version="4.5.0" Condition="'$(TargetFramework)' != 'netstandard2.1' And '$(TargetFramework)' != 'net6.0'" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="1.0.0" />
+	</ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'net472' ">
+		<Reference Include="System.Net.Http" />
+	</ItemGroup>
+	<ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.3' ">
+		<PackageReference Include="System.Collections.NonGeneric" Version="4.3.0" />
+		<PackageReference Include="System.Globalization.Extensions" Version="4.3.0" />
+		<PackageReference Include="System.Net.NameResolution" Version="4.3.0" />
+		<PackageReference Include="System.Threading.Tasks.Parallel" Version="4.3.0" />
+		<PackageReference Include="System.Threading.Thread" Version="4.3.0" />
+		<PackageReference Include="System.Runtime.InteropServices.RuntimeInformation" Version="4.3.0" />
+		<PackageReference Include="System.Security.Cryptography.Csp" Version="4.3.0" />
+	</ItemGroup>
+	<ItemGroup Condition=" '$(Configuration)' == 'Release' ">
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+	</ItemGroup>
+
+  <ItemGroup Condition=" '$(RemoveBC)' == 'true' ">
+    <Compile Remove="BouncyCastle\**\*.cs"></Compile>
+    <Compile Include="BouncyCastle\math\BigInteger.cs"></Compile>
+    <Compile Include="BouncyCastle\util\Arrays.cs"></Compile>
+    <Compile Include="BouncyCastle\util\Platform.cs"></Compile>
+    <Compile Include="BouncyCastle\crypto\digests\RipeMD160Digest.cs"></Compile>
+    <Compile Include="BouncyCastle\crypto\digests\Sha1Digest.cs"></Compile>
+    <Compile Include="BouncyCastle\crypto\digests\Sha256Digest.cs"></Compile>
+    <Compile Include="BouncyCastle\crypto\digests\KeccakDigest.cs"></Compile>
+    <Compile Include="BouncyCastle\crypto\digests\Sha3Digest.cs"></Compile>
+    <Compile Include="BouncyCastle\crypto\digests\GeneralDigest.cs"></Compile>
+    <Compile Include="BouncyCastle\crypto\util\Pack.cs"></Compile>
+  </ItemGroup>
+	<ItemGroup>
+    <None Include="..\icon.png" Pack="true" PackagePath="\" />
+		<None Update="UInt2561.tt">
+			<Generator>TextTemplatingFileGenerator</Generator>
+			<LastGenOutput>UInt2561.cs</LastGenOutput>
+		</None>
+	</ItemGroup>
+
+	<Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
+		<ItemGroup>
+			<DocFile Include="bin\$(Configuration)\$(TargetFramework)\*.xml" />
+		</ItemGroup>
+		<Copy SourceFiles="@(DocFile)" DestinationFolder="$(PublishDir)" SkipUnchangedFiles="false" />
+	</Target>
+
+	<PropertyGroup>
+		<DocumentationFile>bin\$(Configuration)\$(TargetFramework)\NBitcoin.xml</DocumentationFile>
+		<RunAnalyzersDuringLiveAnalysis>false</RunAnalyzersDuringLiveAnalysis>
+	</PropertyGroup>
+
+	<PropertyGroup>
+	  <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
+</Project>

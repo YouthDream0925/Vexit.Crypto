@@ -1,0 +1,8 @@
+{
+  "Settings": {
+    "RpcUserName": "vexit",
+    "RpcPassword": "test123",
+    "RpcIpAddress": "110.174.218.129",
+    "Port": 18333
+  }
+}
